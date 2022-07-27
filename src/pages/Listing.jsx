@@ -1,13 +1,17 @@
 import { getAuth } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Helmet } from "react-helmet"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { MapContainer,TileLayer, Marker, Popup } from "react-leaflet"
 import 'swiper/css'
 import Spinner from "../components/Spinner"
 import { db } from "../firebase.config"
 import shareIcon from '../assets/svg/shareIcon.svg'
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
+
 
 const Listing = () => {
 
@@ -20,9 +24,11 @@ const Listing = () => {
   const auth = getAuth()
 
   useEffect(() => {
-    const fetchListing = async () => {
 
-      const docRef = doc(db, 'listings', params.ListingId)
+    const fetchListing = async () => {
+      console.log("Some line", params.listingId)
+
+      const docRef = doc(db, 'listings', params.listingId)
 
       const docSnapshot = await getDoc(docRef)
 
@@ -33,7 +39,7 @@ const Listing = () => {
     }
 
     fetchListing()
-  }, [navigate, params.ListingId])
+  }, [navigate, params.listingId])
 
   if(loading){
     return <Spinner />
@@ -101,6 +107,29 @@ const Listing = () => {
         </ul>
 
         <p className='listingLocationTitle'>Location</p>
+
+        <div className='leafletContainer'>
+          <MapContainer
+            style={{ height: '100%', width: '100%' }}
+            center={[listing.geolocation.lat, listing.geolocation.lon]}
+            zoom={13}
+            scrollWheelZoom={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'
+            />
+            <Marker position={[listing.geolocation.lat, listing.geolocation.lon]}>
+              <Popup></Popup>
+            </Marker>
+          </MapContainer>
+        </div>
+
+        {auth.currentUser?.uid !== useRef && (
+          <Link to={`/contact/${listing.useRef}?listingName=${listing.name}`}>
+            Contact Landlord
+          </Link>
+        )}
       </div>
     </main>
   )
