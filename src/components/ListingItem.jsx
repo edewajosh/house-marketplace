@@ -9,7 +9,7 @@ const ListingItem = ({listing, id, onDelete, onEdit}) => {
   return (
     <li className="categoryListing">
       <Link 
-        to={`category/${listing.type}/${id}`} 
+        to={`${id}`} 
         className='categoryListingLink'>
           <img
             src={listing.imageUrls[0]}
