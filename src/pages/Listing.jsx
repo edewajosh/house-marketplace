@@ -120,7 +120,7 @@ const Listing = () => {
               url='https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'
             />
             <Marker position={[listing.geolocation.lat, listing.geolocation.lon]}>
-              <Popup></Popup>
+              <Popup>{listing.location}</Popup>
             </Marker>
           </MapContainer>
         </div>
