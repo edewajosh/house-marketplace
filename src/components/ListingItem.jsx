@@ -7,7 +7,17 @@ import bedIcon from '../assets/svg/bedIcon.svg'
 const ListingItem = ({listing, id}) => {
   return (
     <li className="categoryListing">
-      <Link to={`category/${listing.type}/${id}`} className='categoryListingLink'/>
+      <Link 
+        to={`category/${listing.type}/${id}`} 
+        className='categoryListingLink'>
+          <img
+            src={listing.imageUrls[0]}
+            alt={listing.name}
+            className='categoryListingImg'
+           />
+
+        </Link>
+
     </li>
   )
 }
