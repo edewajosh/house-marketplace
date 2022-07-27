@@ -32,7 +32,6 @@ const Category = () => {
         const querySnapshot = await getDocs(q)
 
         const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
-        console.log('Last visible', lastVisible)
         setLastFetchedListing(lastVisible)
 
         const currentListings = []
@@ -101,7 +100,7 @@ const Category = () => {
           <ul className="categoryListings">
             { listings.map((listing) => (
               <ListingItem 
-                listing={listing} 
+                listing={listing.data} 
                 id={listing.id} 
                 key={listing.id} />
             ))}
