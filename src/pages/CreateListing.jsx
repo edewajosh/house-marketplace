@@ -84,7 +84,7 @@ const CreateListing = () => {
           const data = await response.json()
 
           geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
-          geolocation.lat = data.results[0]?.geometry.location.lng ?? 0
+          geolocation.lon = data.results[0]?.geometry.location.lng ?? 0
 
           location = data.status === 'ZERO_RESULTS' ? undefined: data.results[0]?.formatted_address
 
@@ -96,7 +96,7 @@ const CreateListing = () => {
           
         }else {
             geolocation.lat = latitude
-            geolocation.lng = longitude
+            geolocation.lon = longitude
           }
 
         // Store image in firebase
