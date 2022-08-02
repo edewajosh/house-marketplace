@@ -78,7 +78,8 @@ const CreateListing = () => {
 
         if(geolocationEnabled){
           const response = await fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+            // `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.MAPBOX_ACCESS_TOKEN}`
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${process.env.MAPBOX_ACCESS_TOKEN}`
           ) 
           
           const data = await response.json()
