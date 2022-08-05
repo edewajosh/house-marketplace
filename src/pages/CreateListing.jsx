@@ -147,7 +147,7 @@ const CreateListing = () => {
             toast.error('Images not uploaded')
             return
         })
-
+        
         const formDataCopy = {
             ...formData,
             imageUrls,
