@@ -81,11 +81,12 @@ const CreateListing = () => {
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
           ) 
           const data = await response.json()
+          console.log(data, data.length)
         
-          geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
-          geolocation.lon = data.results[0]?.geometry.location.lng ?? 0
+          geolocation.lat = data.features[0]?.geometry.coordinates[0] ?? 0
+          geolocation.lon = data.features[0]?.geometry.coordinates[1] ?? 0
 
-          location = data.status === 'ZERO_RESULTS' ? undefined: data.results[0]?.formatted_address
+          location =  data.features ? data.features[0]?.place_name : undefined
 
           if(location === undefined || location.includes('undefined')){
             setLoading(false)
