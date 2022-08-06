@@ -1,9 +1,8 @@
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Swiper } from "swiper/react"
+import { Swiper, SwiperSlide } from "swiper/react"
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
-import { SwiperSlide } from 'swiper/react'
 import { db } from "../firebase.config"
 import Spinner from "./Spinner"
 
@@ -21,17 +20,17 @@ const Slider = () => {
         const q = query(listingRef, orderBy('timestamp', 'desc'), limit(5))
         const querySnap = await getDocs(q)
         
-        let listings = []
+        let currentListings = []
 
         querySnap.forEach((doc) => {
-            return listings.push({
+            return currentListings.push({
                 id: doc.id,
                 data: doc.data(),
             })
         })
-        setListings(listings)
+        setListings(currentListings)
         setLoading(false)
-        console.log(listings)
+        // console.log(listings)
       }
 
       fetchListings()

@@ -9,6 +9,7 @@ import Spinner from '../components/Spinner'
 import { db } from '../firebase.config'
 
 const CreateListing = () => {
+    // eslint-disable-next-line
     const [geolocationEnabled, setGeolocationEndbled ] = useState(true)
     const [loading, setLoading ] = useState(false)
     const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ const CreateListing = () => {
      const auth = getAuth()
      const navigate = useNavigate()
 
+     // eslint-disable-next-line 
      useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if(user){
