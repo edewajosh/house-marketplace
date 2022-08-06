@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import{ useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
 import Spinner from '../components/Spinner'
@@ -41,7 +41,7 @@ const CreateListing = () => {
         images,
         latitude,
         longitude
-     } = formData
+    } = formData
 
      const auth = getAuth()
      const navigate = useNavigate()
@@ -51,7 +51,7 @@ const CreateListing = () => {
             if(user){
                 setFormData({...formData, userRef: user.uid})
             }else{
-                Navigate('/sign-in')
+                navigate('/sign-in')
             }
         })
      }, [])
@@ -78,15 +78,15 @@ const CreateListing = () => {
 
         if(geolocationEnabled){
           const response = await fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
           ) 
-          
           const data = await response.json()
+        //   console.log(data, data.length)
+        
+          geolocation.lat = data.features[0]?.geometry.coordinates[0] ?? 0
+          geolocation.lon = data.features[0]?.geometry.coordinates[1] ?? 0
 
-          geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
-          geolocation.lon = data.results[0]?.geometry.location.lng ?? 0
-
-          location = data.status === 'ZERO_RESULTS' ? undefined: data.results[0]?.formatted_address
+          location =  data.features ? data.features[0]?.place_name : undefined
 
           if(location === undefined || location.includes('undefined')){
             setLoading(false)
@@ -105,10 +105,9 @@ const CreateListing = () => {
                 const storage = getStorage()
                 const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`
 
-                const storageRef = ref(storage, 'images/'+fileName)
+                const storageRef = ref(storage, 'images/' + fileName)
 
                 const uploadTask = uploadBytesResumable(storageRef, image)
-
                 uploadTask.on(
                     'state_changed',
                     (snapshot) => {
@@ -127,6 +126,7 @@ const CreateListing = () => {
                         }
                     },
                     (error) => {
+                        console.log(error.message)
                         reject(error)
                     },
                     () => {
@@ -139,7 +139,7 @@ const CreateListing = () => {
                 )
             })
         }
-
+        
         const imageUrls = await Promise.all(
             [...images].map((image) => storeImage(image))
         ).catch(() => {
@@ -147,7 +147,7 @@ const CreateListing = () => {
             toast.error('Images not uploaded')
             return
         })
-
+        
         const formDataCopy = {
             ...formData,
             imageUrls,
