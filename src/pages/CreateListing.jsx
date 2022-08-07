@@ -82,8 +82,8 @@ const CreateListing = () => {
           const response = await fetch(
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`
           ) 
+          
           const data = await response.json()
-        //   console.log(data, data.length)
         
           geolocation.lat = data.features[0]?.geometry.coordinates[0] ?? 0
           geolocation.lon = data.features[0]?.geometry.coordinates[1] ?? 0
