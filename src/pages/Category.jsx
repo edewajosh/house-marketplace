@@ -72,16 +72,16 @@ const Category = () => {
       const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
       setLastFetchedListing(lastVisible)
 
-      const listings = []
+      const currentListings = []
 
       querySnapshot.forEach((doc) => {
-        return listings.push({
+        return currentListings.push({
           id: doc.id,
           data: doc.data()
         })
       })
 
-      setListings((prevState) => [...prevState, ...listings])
+      setListings((prevState) => [...prevState, ...currentListings])
       setLoading(false)
     } catch (error) {
       toast.error('Could not fetch listings')

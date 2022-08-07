@@ -1,8 +1,8 @@
-import { async, uuidv4 } from "@firebase/util"
+import { uuidv4 } from "@firebase/util"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { addDoc, collection, doc, getDoc, serverTimestamp } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
@@ -49,7 +49,7 @@ const EditListing = () => {
 
   // Redirect if listing is not user's
   useEffect(() => {
-    if (listing && listing.userref !== auth.currentUser.uid){
+    if (listing && listing.userRef !== auth.currentUser.uid){
       toast.error('You cannot edit that listing')
       navigate('/')
     }
