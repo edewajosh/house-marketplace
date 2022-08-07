@@ -210,7 +210,7 @@ const EditListing = () => {
     if(e.target.files) {
       setFormData((prevState) => ({
         ...prevState,
-        images: e.target.filess
+        images: e.target.files,
       }))
     }
 
@@ -218,7 +218,7 @@ const EditListing = () => {
     if(!e.target.files){
       setFormData((prevState) => ({
         ...prevState,
-        [e.target.id]: boolean ?? e.target.value
+        [e.target.id]: boolean ?? e.target.value,
       }))
     }
 
