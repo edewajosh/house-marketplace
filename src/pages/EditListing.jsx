@@ -421,7 +421,7 @@ const EditListing = () => {
               max='750000000'
               required
             />
-            {type === 'rent' && <p className='formPriceText'>$ / Month</p>}
+            {type === 'rent' && <p className='formPriceText'>KSHS / Month</p>}
           </div>
 
           {offer && (

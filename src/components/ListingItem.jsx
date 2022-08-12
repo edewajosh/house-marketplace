@@ -20,7 +20,7 @@ const ListingItem = ({listing, id, onDelete, onEdit}) => {
             <p className='categoryListingLocation'>{ listing.location }</p>
             <p className='categoryListingName'>{ listing.name }</p>
             <p className='categoryListingPrice'>
-              ${listing.offer 
+              KSHS. {listing.offer 
               ? listing.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               : listing.regularPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 
